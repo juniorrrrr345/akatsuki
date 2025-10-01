@@ -10,12 +10,12 @@ export interface CartItem {
   quantity: number;
   originalPrice: number;
   discount: number;
-  service?: 'livraison' | 'envoi' | 'meetup';
+  service?: 'meetup';
   schedule?: string;
 }
 
 export interface DeliveryService {
-  id: 'livraison' | 'envoi' | 'meetup';
+  id: 'meetup';
   name: string;
   icon: string;
   description: string;
@@ -28,7 +28,7 @@ interface CartStore {
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (productId: string, weight: string) => void;
   updateQuantity: (productId: string, weight: string, quantity: number) => void;
-  updateService: (productId: string, weight: string, service: 'livraison' | 'envoi' | 'meetup') => void;
+  updateService: (productId: string, weight: string, service: 'meetup') => void;
   updateSchedule: (productId: string, weight: string, schedule: string) => void;
   clearCart: () => void;
   getTotalPrice: () => number;

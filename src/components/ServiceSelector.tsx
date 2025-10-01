@@ -4,25 +4,11 @@ import { DeliveryService } from '@/lib/cartStore';
 import { Truck, Package, MapPin } from 'lucide-react';
 
 interface ServiceSelectorProps {
-  selectedService?: 'livraison' | 'envoi' | 'meetup';
-  onServiceSelect: (service: 'livraison' | 'envoi' | 'meetup') => void;
+  selectedService?: 'meetup';
+  onServiceSelect: (service: 'meetup') => void;
 }
 
 const DELIVERY_SERVICES: DeliveryService[] = [
-  {
-    id: 'livraison',
-    name: 'Livraison à domicile',
-    icon: '🚚',
-    description: 'Livraison directe à votre adresse',
-    needsSchedule: true
-  },
-  {
-    id: 'envoi',
-    name: 'Envoi postal',
-    icon: '📦',
-    description: 'Envoi par courrier/transporteur',
-    needsSchedule: true
-  },
   {
     id: 'meetup',
     name: 'Point de rencontre',
@@ -36,8 +22,8 @@ export default function ServiceSelector({ selectedService, onServiceSelect }: Se
   return (
     <div className="space-y-3">
       <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-        <span>🚛</span>
-        Choisissez votre mode de réception :
+        <span>📍</span>
+        Mode de réception : Point de rencontre
       </h3>
       
       <div className="space-y-2">

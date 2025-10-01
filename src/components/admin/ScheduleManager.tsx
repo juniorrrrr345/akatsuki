@@ -7,14 +7,10 @@ interface ServiceSchedules {
 
 export default function ScheduleManager() {
   const [serviceSchedules, setServiceSchedules] = useState<ServiceSchedules>({
-    livraison_schedules: ['Matin (9h-12h)', 'Après-midi (14h-17h)', 'Soirée (17h-20h)', 'Flexible (à convenir)'],
-    meetup_schedules: ['Lundi au Vendredi (9h-18h)', 'Weekend (10h-17h)', 'Soirée en semaine (18h-21h)', 'Flexible (à convenir)'],
-    envoi_schedules: ['Envoi sous 24h', 'Envoi sous 48h', 'Envoi express', 'Délai à convenir']
+    meetup_schedules: ['Lundi au Vendredi (9h-18h)', 'Weekend (10h-17h)', 'Soirée en semaine (18h-21h)', 'Flexible (à convenir)']
   });
   const [newScheduleInput, setNewScheduleInput] = useState({
-    livraison: '',
-    meetup: '',
-    envoi: ''
+    meetup: ''
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -32,9 +28,7 @@ export default function ScheduleManager() {
         console.log('📅 Horaires reçus:', data);
         
         setServiceSchedules({
-          livraison_schedules: data.livraison_schedules || ['Matin (9h-12h)', 'Après-midi (14h-17h)', 'Soirée (17h-20h)', 'Flexible (à convenir)'],
-          meetup_schedules: data.meetup_schedules || ['Lundi au Vendredi (9h-18h)', 'Weekend (10h-17h)', 'Soirée en semaine (18h-21h)', 'Flexible (à convenir)'],
-          envoi_schedules: data.envoi_schedules || ['Envoi sous 24h', 'Envoi sous 48h', 'Envoi express', 'Délai à convenir']
+          meetup_schedules: data.meetup_schedules || ['Lundi au Vendredi (9h-18h)', 'Weekend (10h-17h)', 'Soirée en semaine (18h-21h)', 'Flexible (à convenir)']
         });
       }
     } catch (error) {
@@ -61,9 +55,7 @@ export default function ScheduleManager() {
       // Fusionner avec les horaires
       const updatedSettings = {
         ...currentSettings,
-        livraison_schedules: serviceSchedules.livraison_schedules,
-        meetup_schedules: serviceSchedules.meetup_schedules,
-        envoi_schedules: serviceSchedules.envoi_schedules
+        meetup_schedules: serviceSchedules.meetup_schedules
       };
       
       const response = await fetch('/api/cloudflare/settings', {
@@ -97,48 +89,27 @@ export default function ScheduleManager() {
     }
   };
 
-  const addSchedule = (serviceType: 'livraison' | 'meetup' | 'envoi') => {
-    const newSchedule = newScheduleInput[serviceType].trim();
+  const addSchedule = () => {
+    const newSchedule = newScheduleInput.meetup.trim();
     if (!newSchedule) return;
     
-    const scheduleKey = serviceType === 'livraison' ? 'livraison_schedules' : 
-                       serviceType === 'meetup' ? 'meetup_schedules' : 'envoi_schedules';
-    
     setServiceSchedules(prev => ({
-      ...prev,
-      [scheduleKey]: [...prev[scheduleKey], newSchedule]
+      meetup_schedules: [...prev.meetup_schedules, newSchedule]
     }));
     
-    setNewScheduleInput(prev => ({
-      ...prev,
-      [serviceType]: ''
+    setNewScheduleInput({ meetup: '' });
+  };
+
+  const removeSchedule = (index: number) => {
+    setServiceSchedules(prev => ({
+      meetup_schedules: prev.meetup_schedules.filter((_, i) => i !== index)
     }));
   };
 
-  const removeSchedule = (serviceType: 'livraison' | 'meetup' | 'envoi', index: number) => {
-    const scheduleKey = serviceType === 'livraison' ? 'livraison_schedules' : 
-                       serviceType === 'meetup' ? 'meetup_schedules' : 'envoi_schedules';
-    
-    setServiceSchedules(prev => ({
-      ...prev,
-      [scheduleKey]: prev[scheduleKey].filter((_, i) => i !== index)
-    }));
-  };
-
-  const resetToDefault = (serviceType: 'livraison' | 'meetup' | 'envoi') => {
-    const defaultSchedules = {
-      livraison: ['Matin (9h-12h)', 'Après-midi (14h-17h)', 'Soirée (17h-20h)', 'Flexible (à convenir)'],
-      meetup: ['Lundi au Vendredi (9h-18h)', 'Weekend (10h-17h)', 'Soirée en semaine (18h-21h)', 'Flexible (à convenir)'],
-      envoi: ['Envoi sous 24h', 'Envoi sous 48h', 'Envoi express', 'Délai à convenir']
-    };
-    
-    const scheduleKey = serviceType === 'livraison' ? 'livraison_schedules' : 
-                       serviceType === 'meetup' ? 'meetup_schedules' : 'envoi_schedules';
-    
-    setServiceSchedules(prev => ({
-      ...prev,
-      [scheduleKey]: defaultSchedules[serviceType]
-    }));
+  const resetToDefault = () => {
+    setServiceSchedules({
+      meetup_schedules: ['Lundi au Vendredi (9h-18h)', 'Weekend (10h-17h)', 'Soirée en semaine (18h-21h)', 'Flexible (à convenir)']
+    });
   };
 
   if (loading) {
@@ -184,68 +155,16 @@ export default function ScheduleManager() {
         </div>
       )}
 
-      {/* Note Signal */}
+      {/* Note WhatsApp */}
       <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
         <p className="text-blue-400 text-sm">
-          💡 <strong>Note :</strong> Les liens Signal se configurent dans <strong>Settings</strong>. 
-          Ici vous gérez seulement les horaires disponibles pour chaque service.
+          💡 <strong>Note :</strong> Les liens WhatsApp se configurent dans <strong>Configuration</strong>. 
+          Ici vous gérez seulement les horaires disponibles pour les meetups.
         </p>
       </div>
       
-      {/* Gestion des horaires par service */}
+      {/* Gestion des horaires meetup */}
       <div className="space-y-8">
-        {/* Horaires Livraison */}
-        <div className="bg-gray-800/50 border border-white/10 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h4 className="text-white font-medium flex items-center">
-              <span className="mr-2">🚚</span>
-              Créneaux de Livraison
-            </h4>
-            <button
-              onClick={() => resetToDefault('livraison')}
-              className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-2 py-1 rounded"
-            >
-              Remettre par défaut
-            </button>
-          </div>
-          
-          <div className="space-y-2 mb-3">
-            {serviceSchedules.livraison_schedules.map((schedule, index) => (
-              <div key={index} className="flex items-center justify-between bg-gray-700/50 rounded p-2">
-                <span className="text-gray-300">{schedule}</span>
-                <button
-                  onClick={() => removeSchedule('livraison', index)}
-                  className="text-red-400 hover:text-red-300 text-sm"
-                >
-                  🗑️
-                </button>
-              </div>
-            ))}
-          </div>
-          
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={newScheduleInput.livraison}
-              onChange={(e) => setNewScheduleInput(prev => ({ ...prev, livraison: e.target.value }))}
-              className="flex-1 bg-gray-700 border border-white/20 text-white rounded px-3 py-2 text-sm"
-              placeholder="Nouveau créneau de livraison"
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  addSchedule('livraison');
-                }
-              }}
-            />
-            <button
-              onClick={() => addSchedule('livraison')}
-              disabled={!newScheduleInput.livraison.trim()}
-              className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white px-3 py-2 rounded text-sm"
-            >
-              Ajouter
-            </button>
-          </div>
-        </div>
-
         {/* Horaires Meetup */}
         <div className="bg-gray-800/50 border border-white/10 rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
@@ -254,7 +173,7 @@ export default function ScheduleManager() {
               Créneaux de Meetup
             </h4>
             <button
-              onClick={() => resetToDefault('meetup')}
+              onClick={resetToDefault}
               className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-2 py-1 rounded"
             >
               Remettre par défaut
@@ -266,7 +185,7 @@ export default function ScheduleManager() {
               <div key={index} className="flex items-center justify-between bg-gray-700/50 rounded p-2">
                 <span className="text-gray-300">{schedule}</span>
                 <button
-                  onClick={() => removeSchedule('meetup', index)}
+                  onClick={() => removeSchedule(index)}
                   className="text-red-400 hover:text-red-300 text-sm"
                 >
                   🗑️
@@ -279,70 +198,18 @@ export default function ScheduleManager() {
             <input
               type="text"
               value={newScheduleInput.meetup}
-              onChange={(e) => setNewScheduleInput(prev => ({ ...prev, meetup: e.target.value }))}
+              onChange={(e) => setNewScheduleInput({ meetup: e.target.value })}
               className="flex-1 bg-gray-700 border border-white/20 text-white rounded px-3 py-2 text-sm"
               placeholder="Nouveau créneau de meetup"
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
-                  addSchedule('meetup');
+                  addSchedule();
                 }
               }}
             />
             <button
-              onClick={() => addSchedule('meetup')}
+              onClick={addSchedule}
               disabled={!newScheduleInput.meetup.trim()}
-              className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white px-3 py-2 rounded text-sm"
-            >
-              Ajouter
-            </button>
-          </div>
-        </div>
-
-        {/* Horaires Envoi */}
-        <div className="bg-gray-800/50 border border-white/10 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h4 className="text-white font-medium flex items-center">
-              <span className="mr-2">📦</span>
-              Créneaux d'Envoi
-            </h4>
-            <button
-              onClick={() => resetToDefault('envoi')}
-              className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-2 py-1 rounded"
-            >
-              Remettre par défaut
-            </button>
-          </div>
-          
-          <div className="space-y-2 mb-3">
-            {serviceSchedules.envoi_schedules.map((schedule, index) => (
-              <div key={index} className="flex items-center justify-between bg-gray-700/50 rounded p-2">
-                <span className="text-gray-300">{schedule}</span>
-                <button
-                  onClick={() => removeSchedule('envoi', index)}
-                  className="text-red-400 hover:text-red-300 text-sm"
-                >
-                  🗑️
-                </button>
-              </div>
-            ))}
-          </div>
-          
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={newScheduleInput.envoi}
-              onChange={(e) => setNewScheduleInput(prev => ({ ...prev, envoi: e.target.value }))}
-              className="flex-1 bg-gray-700 border border-white/20 text-white rounded px-3 py-2 text-sm"
-              placeholder="Nouveau créneau d'envoi"
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  addSchedule('envoi');
-                }
-              }}
-            />
-            <button
-              onClick={() => addSchedule('envoi')}
-              disabled={!newScheduleInput.envoi.trim()}
               className="bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white px-3 py-2 rounded text-sm"
             >
               Ajouter

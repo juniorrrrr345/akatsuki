@@ -25,14 +25,10 @@ export default function Cart() {
   } = useCartStore();
   const [orderLink, setOrderLink] = useState(''); // Numéro WhatsApp principal
   const [serviceLinks, setServiceLinks] = useState({
-    livraison: '',
-    envoi: '',
     meetup: ''
   });
   const [customSchedules, setCustomSchedules] = useState({
-    livraison: [] as string[],
-    meetup: [] as string[],
-    envoi: [] as string[]
+    meetup: [] as string[]
   });
   const [currentStep, setCurrentStep] = useState<'cart' | 'service' | 'schedule' | 'review'>('cart');
   
@@ -55,18 +51,14 @@ export default function Cart() {
       .then(data => {
         console.log('📱 Settings WhatsApp reçus:', data);
         
-        // Charger les numéros WhatsApp spécifiques par service
+        // Charger le numéro WhatsApp pour meetup
         setServiceLinks({
-          livraison: data.whatsapp_livraison || '',
-          envoi: data.whatsapp_envoi || '',
           meetup: data.whatsapp_meetup || ''
         });
         
         // Charger les horaires personnalisés
         setCustomSchedules({
-          livraison: data.livraison_schedules || [],
-          meetup: data.meetup_schedules || [],
-          envoi: data.envoi_schedules || []
+          meetup: data.meetup_schedules || []
         });
         
         // Numéro WhatsApp principal
@@ -81,17 +73,9 @@ export default function Cart() {
           console.log('📱 WhatsApp link:', data.whatsapp_link);
         }
         
-        console.log('📱 Numéros WhatsApp par service:', {
-          livraison: data.whatsapp_livraison,
-          envoi: data.whatsapp_envoi,
-          meetup: data.whatsapp_meetup
-        });
+        console.log('📱 Numéro WhatsApp meetup:', data.whatsapp_meetup);
         
-        console.log('⏰ Horaires personnalisés:', {
-          livraison: data.livraison_schedules,
-          meetup: data.meetup_schedules,
-          envoi: data.envoi_schedules
-        });
+        console.log('⏰ Horaires personnalisés meetup:', data.meetup_schedules);
       })
       .catch((error) => {
         console.error('❌ Erreur chargement settings WhatsApp:', error);
@@ -99,12 +83,12 @@ export default function Cart() {
   }, []);
   
   // Fonction pour envoyer la commande directement via WhatsApp
-  const handleSendOrderByService = async (targetService: 'livraison' | 'envoi' | 'meetup') => {
+  const handleSendOrderByService = async (targetService: 'meetup') => {
     // Filtrer les articles pour ce service
     const serviceItems = items.filter(item => item.service === targetService);
     
     if (serviceItems.length === 0) {
-      toast.error(`Aucun article sélectionné pour ${targetService}`);
+      toast.error(`Aucun article sélectionné pour meetup`);
       return;
     }
     
@@ -112,8 +96,8 @@ export default function Cart() {
     const serviceTotal = serviceItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     
     // Construire le message pour ce service spécifique
-    const serviceIcon = targetService === 'livraison' ? '🚚' : targetService === 'envoi' ? '📦' : '📍';
-    const serviceName = targetService === 'livraison' ? 'Livraison à domicile' : targetService === 'envoi' ? 'Envoi postal' : 'Point de rencontre';
+    const serviceIcon = '📍';
+    const serviceName = 'Point de rencontre';
     
     // Format optimisé pour WhatsApp
     let message = `${serviceIcon} *COMMANDE AKATSUKI COFFEE - ${serviceName.toUpperCase()}*\n\n`;
