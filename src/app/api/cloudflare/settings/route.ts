@@ -51,10 +51,10 @@ export async function GET() {
         whatsappNumber: settings.whatsapp_number || '',
         scrollingText: settings.scrolling_text || '',
         titleStyle: settings.theme_color || 'glow',
-        // Nouveaux champs pour les liens Telegram par service
-        telegram_livraison: settings.telegram_livraison || '',
-        telegram_envoi: settings.telegram_envoi || '',
-        telegram_meetup: settings.telegram_meetup || '',
+        // Nouveaux champs pour les numéros WhatsApp par service
+        whatsapp_livraison: settings.whatsapp_livraison || '',
+        whatsapp_envoi: settings.whatsapp_envoi || '',
+        whatsapp_meetup: settings.whatsapp_meetup || '',
         // Nouveaux champs pour les horaires personnalisés (parse JSON si string)
         livraison_schedules: settings.livraison_schedules ? 
           (typeof settings.livraison_schedules === 'string' ? 
@@ -86,10 +86,10 @@ export async function GET() {
         backgroundBlur: 5,
         shopTitle: 'SCM',
         shopName: 'SCM',
-        // Valeurs par défaut pour les nouveaux champs
-        telegram_livraison: '',
-        telegram_envoi: '',
-        telegram_meetup: '',
+        // Valeurs par défaut pour les numéros WhatsApp
+        whatsapp_livraison: '',
+        whatsapp_envoi: '',
+        whatsapp_meetup: '',
         livraison_schedules: ['Matin (9h-12h)', 'Après-midi (14h-17h)', 'Soirée (17h-20h)', 'Flexible (à convenir)'],
         meetup_schedules: ['Lundi au Vendredi (9h-18h)', 'Weekend (10h-17h)', 'Soirée en semaine (18h-21h)', 'Flexible (à convenir)'],
         envoi_schedules: ['Envoi sous 24h', 'Envoi sous 48h', 'Envoi express', 'Délai à convenir']
@@ -138,10 +138,10 @@ export async function PUT(request: NextRequest) {
       scrollingText,
       theme_color,
       titleStyle,
-      // Nouveaux champs pour les liens Telegram par service
-      telegram_livraison,
-      telegram_envoi,
-      telegram_meetup,
+      // Nouveaux champs pour les numéros WhatsApp par service
+      whatsapp_livraison,
+      whatsapp_envoi,
+      whatsapp_meetup,
       // Nouveaux champs pour les horaires personnalisés
       livraison_schedules,
       meetup_schedules,
@@ -160,20 +160,20 @@ export async function PUT(request: NextRequest) {
     const finalScrollingText = scrolling_text || scrollingText || '';
     const finalThemeColor = theme_color || titleStyle || 'glow';
     
-    // Nouveaux champs pour les liens Telegram par service
-    const finalTelegramLivraison = telegram_livraison || '';
-    const finalTelegramEnvoi = telegram_envoi || '';
-    const finalTelegramMeetup = telegram_meetup || '';
+    // Nouveaux champs pour les numéros WhatsApp par service
+    const finalWhatsappLivraison = whatsapp_livraison || '';
+    const finalWhatsappEnvoi = whatsapp_envoi || '';
+    const finalWhatsappMeetup = whatsapp_meetup || '';
     
     // Nouveaux champs pour les horaires personnalisés (stringifier les arrays)
     const finalLivraisonSchedules = livraison_schedules ? JSON.stringify(livraison_schedules) : JSON.stringify(['Matin (9h-12h)', 'Après-midi (14h-17h)', 'Soirée (17h-20h)', 'Flexible (à convenir)']);
     const finalMeetupSchedules = meetup_schedules ? JSON.stringify(meetup_schedules) : JSON.stringify(['Lundi au Vendredi (9h-18h)', 'Weekend (10h-17h)', 'Soirée en semaine (18h-21h)', 'Flexible (à convenir)']);
     const finalEnvoiSchedules = envoi_schedules ? JSON.stringify(envoi_schedules) : JSON.stringify(['Envoi sous 24h', 'Envoi sous 48h', 'Envoi express', 'Délai à convenir']);
     
-    console.log('📱 Sauvegarde des nouveaux champs:', {
-      telegram_livraison: finalTelegramLivraison,
-      telegram_envoi: finalTelegramEnvoi,
-      telegram_meetup: finalTelegramMeetup,
+    console.log('📱 Sauvegarde des numéros WhatsApp:', {
+      whatsapp_livraison: finalWhatsappLivraison,
+      whatsapp_envoi: finalWhatsappEnvoi,
+      whatsapp_meetup: finalWhatsappMeetup,
       livraison_schedules: finalLivraisonSchedules,
       meetup_schedules: finalMeetupSchedules,
       envoi_schedules: finalEnvoiSchedules
@@ -196,9 +196,9 @@ export async function PUT(request: NextRequest) {
           whatsapp_number = ?,
           scrolling_text = ?,
           theme_color = ?,
-          telegram_livraison = ?,
-          telegram_envoi = ?,
-          telegram_meetup = ?,
+          whatsapp_livraison = ?,
+          whatsapp_envoi = ?,
+          whatsapp_meetup = ?,
           livraison_schedules = ?,
           meetup_schedules = ?,
           envoi_schedules = ?
@@ -214,9 +214,9 @@ export async function PUT(request: NextRequest) {
         finalWhatsappNumber,
         finalScrollingText,
         finalThemeColor,
-        finalTelegramLivraison,
-        finalTelegramEnvoi,
-        finalTelegramMeetup,
+        finalWhatsappLivraison,
+        finalWhatsappEnvoi,
+        finalWhatsappMeetup,
         finalLivraisonSchedules,
         finalMeetupSchedules,
         finalEnvoiSchedules
@@ -228,7 +228,7 @@ export async function PUT(request: NextRequest) {
           id, background_image, background_opacity, background_blur, 
           info_content, contact_content, shop_title, whatsapp_link,
           whatsapp_number, scrolling_text, theme_color,
-          telegram_livraison, telegram_envoi, telegram_meetup,
+          whatsapp_livraison, whatsapp_envoi, whatsapp_meetup,
           livraison_schedules, meetup_schedules, envoi_schedules
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
@@ -243,9 +243,9 @@ export async function PUT(request: NextRequest) {
         finalWhatsappNumber,
         finalScrollingText,
         finalThemeColor,
-        finalTelegramLivraison,
-        finalTelegramEnvoi,
-        finalTelegramMeetup,
+        finalWhatsappLivraison,
+        finalWhatsappEnvoi,
+        finalWhatsappMeetup,
         finalLivraisonSchedules,
         finalMeetupSchedules,
         finalEnvoiSchedules
@@ -265,10 +265,10 @@ export async function PUT(request: NextRequest) {
       backgroundBlur: settings.background_blur,
       shopTitle: 'SCM',
       shopName: 'SCM',
-      // Inclure les nouveaux champs dans la réponse
-      telegram_livraison: settings.telegram_livraison || '',
-      telegram_envoi: settings.telegram_envoi || '',
-      telegram_meetup: settings.telegram_meetup || '',
+      // Inclure les numéros WhatsApp dans la réponse
+      whatsapp_livraison: settings.whatsapp_livraison || '',
+      whatsapp_envoi: settings.whatsapp_envoi || '',
+      whatsapp_meetup: settings.whatsapp_meetup || '',
       livraison_schedules: settings.livraison_schedules ? 
         (typeof settings.livraison_schedules === 'string' ? 
           JSON.parse(settings.livraison_schedules) : settings.livraison_schedules) : 
