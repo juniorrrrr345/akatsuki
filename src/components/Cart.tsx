@@ -34,9 +34,7 @@ export default function Cart() {
     meetup: [] as string[],
     envoi: [] as string[]
   });
-  const [currentStep, setCurrentStep] = useState<'cart' | 'service' | 'schedule' | 'review' | 'message'>('cart');
-  const [orderMessage, setOrderMessage] = useState('');
-  const [messageCopied, setMessageCopied] = useState(false);
+  const [currentStep, setCurrentStep] = useState<'cart' | 'service' | 'schedule' | 'review'>('cart');
   
   // Auto-navigation entre les étapes (désactivée pour permettre la modification)
   useEffect(() => {
@@ -288,7 +286,6 @@ export default function Cart() {
                   {currentStep === 'service' && 'Mode de livraison'}
                   {currentStep === 'schedule' && 'Options & Horaires'}
                   {currentStep === 'review' && 'Récapitulatif'}
-                  {currentStep === 'message' && 'Votre message'}
                 </h2>
                 <span className="rounded-full bg-green-500 px-2 py-1 text-sm font-medium text-black">
                   {totalItems} article{totalItems > 1 ? 's' : ''}
@@ -329,7 +326,7 @@ export default function Cart() {
           </div>
           
           {/* Content dynamique selon l'étape */}
-          <div className={`flex-1 overflow-y-auto ${currentStep === 'message' ? 'p-3 pb-20' : 'p-6'}`}>
+          <div className="flex-1 overflow-y-auto p-6">
             {items.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-gray-400">
                 <ShoppingCart className="h-16 w-16 mb-4" />
@@ -741,139 +738,14 @@ export default function Cart() {
                   </div>
                 )}
 
-                {/* Étape message - Mobile First Design */}
-                {currentStep === 'message' && (
-                  <div className="space-y-3 pb-8">
-                    {/* Header compact */}
-                    <div className="text-center bg-green-500/10 border border-green-500/20 rounded-lg p-2">
-                      <div className="text-green-400 font-medium text-sm">✅ Commande prête !</div>
-                    </div>
-                    
-                    {/* Bouton copier en premier - toujours visible */}
-                    <div className="text-center">
-                      <button
-                        onClick={async () => {
-                          try {
-                            await navigator.clipboard.writeText(orderMessage);
-                            setMessageCopied(true);
-                            toast.success('📋 Message copié ! Bouton Commander disponible en bas');
-                          } catch (err) {
-                            console.error('Erreur copie:', err);
-                            toast.error('Sélectionnez et copiez manuellement le texte');
-                          }
-                        }}
-                        className={`px-6 py-3 rounded-lg font-bold transition-all ${
-                          messageCopied 
-                            ? 'bg-green-500 text-white' 
-                            : 'bg-blue-500 hover:bg-blue-600 text-white'
-                        }`}
-                      >
-                        {messageCopied ? '✅ MESSAGE COPIÉ' : '📋 COPIER LE MESSAGE'}
-                      </button>
-                    </div>
-                    
-                    {/* Message dans zone réduite */}
-                    <div className="bg-gray-800 border border-white/20 rounded-lg p-3">
-                      <div className="text-xs text-gray-300 mb-2">📋 Votre commande :</div>
-                      <div className="bg-black rounded-lg p-3 max-h-40 overflow-y-auto">
-                        <div className="text-xs text-white whitespace-pre-wrap leading-relaxed select-all cursor-text">
-                          {orderMessage}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Bouton Commander - toujours visible après copie */}
-                    {messageCopied && (
-                      <div className="space-y-3 mt-6">
-                        <div className="text-center bg-green-500/10 border border-green-500/20 rounded-lg p-2">
-                          <div className="text-green-400 text-sm font-medium">
-                            ✅ Prêt à commander !
-                          </div>
-                        </div>
-                        
-                        <button
-                          onClick={() => {
-                            if (orderLink && orderLink.trim() !== '') {
-                              try {
-                                console.log('📱 Tentative ouverture Signal:', orderLink);
-                                
-                                // Méthode d'ouverture compatible avec Signal
-                                if (navigator.userAgent.includes('Mobile')) {
-                                  // Mobile : redirection directe pour éviter les blocages
-                                  window.location.href = orderLink;
-                                } else {
-                                  // Desktop : nouvel onglet
-                                  const newWindow = window.open(orderLink, '_blank', 'noopener,noreferrer');
-                                  if (!newWindow) {
-                                    // Si popup bloquée, redirection directe
-                                    window.location.href = orderLink;
-                                  }
-                                }
-                                
-                                console.log('✅ Signal ouvert avec méthode adaptée');
-                                toast.success('📱 Signal ouvert ! Collez votre message');
-                                
-                                // Vider le panier après ouverture
-                                setTimeout(() => {
-                                  clearCart();
-                                  setIsOpen(false);
-                                  setCurrentStep('cart');
-                                  setOrderMessage('');
-                                  setMessageCopied(false);
-                                }, 1500);
-                              } catch (error) {
-                                console.error('❌ Erreur ouverture Signal:', error);
-                                
-                                // Fallback : copier le lien
-                                try {
-                                  navigator.clipboard.writeText(orderLink);
-                                  toast.error('❌ Ouverture automatique échouée. Lien Signal copié - ouvrez-le manuellement');
-                                } catch (e) {
-                                  toast.error('❌ Erreur. Copiez ce lien manuellement : ' + orderLink.substring(0, 30) + '...');
-                                }
-                              }
-                            } else {
-                              toast.error('❌ Aucun lien Signal configuré dans Settings');
-                            }
-                          }}
-                          className="w-full rounded-lg bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 py-4 font-bold text-white transition-all text-lg shadow-xl animate-pulse border-2 border-green-400"
-                        >
-                          📱 COMMANDER SUR SIGNAL
-                        </button>
-                        
-                        {/* Bouton de fallback pour copier le lien */}
-                        <button
-                          onClick={async () => {
-                            try {
-                              await navigator.clipboard.writeText(orderLink);
-                              toast.success('🔗 Lien Signal copié ! Ouvrez-le dans votre navigateur');
-                            } catch (err) {
-                              console.error('Erreur copie lien:', err);
-                              toast.error('Lien : ' + orderLink);
-                            }
-                          }}
-                          className="w-full rounded-lg bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 text-sm font-medium"
-                        >
-                          🔗 Si ça ne marche pas, copier le lien Signal
-                        </button>
-                        
-                        {/* Espace de sécurité mobile */}
-                        <div className="h-8"></div>
-                      </div>
-                    )}
-                  </div>
-                )}
               </div>
               
-              {currentStep !== 'message' && (
-                // Autres étapes, bouton continuer normal
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="mt-3 w-full rounded-lg bg-gray-600 py-2 font-medium text-white hover:bg-gray-500 transition-colors text-sm"
-                >
-                  Continuer les achats
-                </button>
-              )}
+              <button
+                onClick={() => setIsOpen(false)}
+                className="mt-3 w-full rounded-lg bg-gray-600 py-2 font-medium text-white hover:bg-gray-500 transition-colors text-sm"
+              >
+                Continuer les achats
+              </button>
             </div>
           )}
         </div>
