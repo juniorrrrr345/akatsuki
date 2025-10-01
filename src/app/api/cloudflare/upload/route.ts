@@ -26,24 +26,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validation nom de fichier pour éviter erreurs pattern
-    if (file.name && /[<>"'`\n\r\t]/.test(file.name)) {
-      console.error('❌ Caractères interdits dans nom fichier:', file.name);
-      return NextResponse.json(
-        { error: 'Nom de fichier contient des caractères non autorisés. Renommez votre fichier.' },
-        { status: 400 }
-      );
-    }
+    // Pas de validation stricte du nom - on va le nettoyer automatiquement
+    console.log('📝 Nom de fichier original:', file.name);
 
     // Vérifier le type de fichier (images + vidéos étendus)
     const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/tiff'];
     const allowedVideoTypes = [
       'video/mp4', 'video/webm', 'video/ogg', 'video/avi', 'video/mov', 'video/wmv',
-      'video/mkv', 'video/flv', 'video/3gp', 'video/m4v', 'video/quicktime'
+      'video/mkv', 'video/flv', 'video/3gp', 'video/m4v', 'video/quicktime', 'application/octet-stream'
     ];
     const allowedTypes = [...allowedImageTypes, ...allowedVideoTypes];
     
-    if (!allowedTypes.includes(file.type)) {
+    // Vérifier par extension si le MIME type n'est pas reconnu
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.avi', '.mov', '.wmv', '.mkv', '.flv', '.3gp', '.m4v'];
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff'];
+    const fileName = file.name.toLowerCase();
+    const hasVideoExtension = videoExtensions.some(ext => fileName.endsWith(ext));
+    const hasImageExtension = imageExtensions.some(ext => fileName.endsWith(ext));
+    
+    if (!allowedTypes.includes(file.type) && !hasVideoExtension && !hasImageExtension) {
       return NextResponse.json(
         { error: 'Type de fichier non supporté. Images: JPG, PNG, GIF, WebP, BMP, TIFF. Vidéos: MP4, WebM, OGG, AVI, MOV, WMV, MKV, FLV, 3GP, M4V.' },
         { status: 400 }
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Vérifier la taille du fichier (images: 10MB, vidéos: 500MB)
-    const isVideo = allowedVideoTypes.includes(file.type);
+    const isVideo = allowedVideoTypes.includes(file.type) || hasVideoExtension;
     const maxSize = isVideo ? 500 * 1024 * 1024 : 10 * 1024 * 1024; // 500MB pour vidéos, 10MB pour images
     
     if (file.size > maxSize) {

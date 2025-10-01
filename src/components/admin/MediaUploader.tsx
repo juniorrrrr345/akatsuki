@@ -135,21 +135,20 @@ export default function MediaUploader({
         fileSize: file.size
       });
       
-      // Détection spécifique erreur pattern
+      // Message d'erreur plus utile
       let errorMsg = 'Erreur upload inconnue';
       if (error instanceof Error) {
         errorMsg = error.message;
         
+        // Si l'erreur mentionne un problème de pattern, c'est probablement un problème côté serveur, pas de nom de fichier
         if (error.message.includes('string did not match the expected pattern')) {
-          console.error('🎯 ERREUR PATTERN DÉTECTÉE!', {
+          console.error('🎯 ERREUR PATTERN DÉTECTÉE (probablement un problème serveur):', {
             fileName: file.name,
             fileType: file.type,
-            containsSpecialChars: /[<>"'`\n\r\t]/.test(file.name),
-            isValidUTF8: /^[\x00-\x7F]*$/.test(file.name),
-            nameLength: file.name.length,
-            actualName: JSON.stringify(file.name)
+            fileSize: file.size,
+            nameLength: file.name.length
           });
-          errorMsg = `Erreur de format de fichier. Nom du fichier problématique: "${file.name}". Essayez de renommer votre fichier sans caractères spéciaux.`;
+          errorMsg = `Erreur lors de l'upload du fichier "${file.name}". Cela peut être dû à un problème de configuration serveur. Veuillez réessayer ou contacter le support.`;
         }
       }
       

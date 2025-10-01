@@ -70,7 +70,7 @@ class CloudflareR2Client {
     const timestamp = Date.now();
     const randomId = Math.random().toString(36).substring(2, 15);
     const extension = file instanceof File 
-      ? file.name.split('.').pop() || 'jpg'
+      ? (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '')
       : 'jpg';
     
     const key = `${folder}/${timestamp}-${randomId}.${extension}`;
@@ -83,14 +83,15 @@ class CloudflareR2Client {
     const timestamp = Date.now();
     const randomId = Math.random().toString(36).substring(2, 15);
     const extension = file instanceof File 
-      ? file.name.split('.').pop() || 'mp4'
+      ? (file.name.split('.').pop() || 'mp4').toLowerCase().replace(/[^a-z0-9]/g, '')
       : 'mp4';
     
     const key = `${folder}/${timestamp}-${randomId}.${extension}`;
     
     console.log('🎥 R2 uploadVideo:', {
       originalName: file instanceof File ? file.name : 'Buffer',
-      extension: extension,
+      extensionOriginal: file instanceof File ? file.name.split('.').pop() : 'mp4',
+      extensionSanitized: extension,
       newKey: key,
       fileSize: file instanceof File ? file.size : 'unknown',
       timestamp: timestamp
