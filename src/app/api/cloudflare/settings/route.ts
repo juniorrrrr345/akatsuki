@@ -29,13 +29,13 @@ async function executeSqlOnD1(sql: string, params: any[] = []) {
 // GET - Récupérer les paramètres
 export async function GET() {
   try {
-    console.log('🔍 GET settings SCM...');
+    console.log('🔍 GET settings AKATSUKI COFFEE...');
     
     const result = await executeSqlOnD1('SELECT * FROM settings WHERE id = 1');
     
     if (result.result?.[0]?.results?.length) {
       const settings = result.result[0].results[0];
-      console.log('✅ Settings SCM récupérés:', settings);
+      console.log('✅ Settings AKATSUKI COFFEE récupérés:', settings);
       
       // Mapper les champs D1 vers le format attendu par le frontend
       const mappedSettings = {
@@ -43,8 +43,8 @@ export async function GET() {
         backgroundImage: settings.background_image,
         backgroundOpacity: settings.background_opacity || 20,
         backgroundBlur: settings.background_blur || 5,
-        shopTitle: settings.shop_title || 'SCM',
-        shopName: settings.shop_title || 'SCM',
+        shopTitle: settings.shop_title || 'AKATSUKI COFFEE',
+        shopName: settings.shop_title || 'AKATSUKI COFFEE',
         infoContent: settings.info_content,
         contactContent: settings.contact_content,
         whatsappLink: settings.whatsapp_link || '',
@@ -72,20 +72,20 @@ export async function GET() {
       
       return NextResponse.json(mappedSettings);
     } else {
-      // Retourner des paramètres par défaut SCM
+      // Retourner des paramètres par défaut AKATSUKI COFFEE
       const defaultSettings = {
         id: 1,
-        shop_name: 'SCM',
+        shop_name: 'AKATSUKI COFFEE',
         background_image: 'https://pub-b38679a01a274648827751df94818418.r2.dev/images/background-oglegacy.jpeg',
         background_opacity: 20,
         background_blur: 5,
-        info_content: 'Bienvenue chez SCM - Votre boutique premium',
-        contact_content: 'Contactez SCM pour toute question',
+        info_content: 'Bienvenue chez AKATSUKI COFFEE - Votre boutique premium',
+        contact_content: 'Contactez AKATSUKI COFFEE pour toute question',
         backgroundImage: 'https://pub-b38679a01a274648827751df94818418.r2.dev/images/background-oglegacy.jpeg',
         backgroundOpacity: 20,
         backgroundBlur: 5,
-        shopTitle: 'SCM',
-        shopName: 'SCM',
+        shopTitle: 'AKATSUKI COFFEE',
+        shopName: 'AKATSUKI COFFEE',
         // Valeurs par défaut pour les numéros WhatsApp
         whatsapp_livraison: '',
         whatsapp_envoi: '',
@@ -98,7 +98,7 @@ export async function GET() {
       return NextResponse.json(defaultSettings);
     }
   } catch (error) {
-    console.error('❌ Erreur GET settings SCM:', error);
+    console.error('❌ Erreur GET settings AKATSUKI COFFEE:', error);
     return NextResponse.json(
       { error: 'Erreur serveur lors de la récupération des paramètres' },
       { status: 500 }
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
 // PUT - Mettre à jour les paramètres
 export async function PUT(request: NextRequest) {
   try {
-    console.log('🔧 PUT settings SCM...');
+    console.log('🔧 PUT settings AKATSUKI COFFEE...');
     const body = await request.json();
     
     const {
@@ -152,9 +152,9 @@ export async function PUT(request: NextRequest) {
     const finalBackgroundImage = background_image || backgroundImage;
     const finalBackgroundOpacity = background_opacity ?? backgroundOpacity ?? 20;
     const finalBackgroundBlur = background_blur ?? backgroundBlur ?? 5;
-    const finalInfoContent = info_content || infoContent || 'Bienvenue chez SCM';
-    const finalContactContent = contact_content || contactContent || 'Contactez SCM';
-    const finalShopTitle = shop_title || shopTitle || 'SCM';
+    const finalInfoContent = info_content || infoContent || 'Bienvenue chez AKATSUKI COFFEE';
+    const finalContactContent = contact_content || contactContent || 'Contactez AKATSUKI COFFEE';
+    const finalShopTitle = shop_title || shopTitle || 'AKATSUKI COFFEE';
     const finalWhatsappLink = whatsapp_link || whatsappLink || '';
     const finalWhatsappNumber = whatsapp_number || whatsappNumber || '';
     const finalScrollingText = scrolling_text || scrollingText || '';
@@ -256,15 +256,15 @@ export async function PUT(request: NextRequest) {
     const result = await executeSqlOnD1('SELECT * FROM settings WHERE id = 1');
     const settings = result.result[0].results[0];
     
-    console.log('✅ Settings SCM mis à jour:', settings);
+    console.log('✅ Settings AKATSUKI COFFEE mis à jour:', settings);
 
     const mappedSettings = {
       ...settings,
       backgroundImage: settings.background_image,
       backgroundOpacity: settings.background_opacity,
       backgroundBlur: settings.background_blur,
-      shopTitle: 'SCM',
-      shopName: 'SCM',
+      shopTitle: 'AKATSUKI COFFEE',
+      shopName: 'AKATSUKI COFFEE',
       // Inclure les numéros WhatsApp dans la réponse
       whatsapp_livraison: settings.whatsapp_livraison || '',
       whatsapp_envoi: settings.whatsapp_envoi || '',
@@ -285,7 +285,7 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json(mappedSettings);
   } catch (error) {
-    console.error('❌ Erreur PUT settings SCM:', error);
+    console.error('❌ Erreur PUT settings AKATSUKI COFFEE:', error);
     return NextResponse.json(
       { error: 'Erreur serveur lors de la mise à jour des paramètres' },
       { status: 500 }

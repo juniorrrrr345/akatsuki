@@ -21,12 +21,12 @@ export default function ContactPageClient() {
       
       if (response.ok) {
         const pageData = await response.json();
-        setContent(pageData.content || 'Contactez SCM pour toute question.');
+        setContent(pageData.content || 'Contactez AKATSUKI COFFEE pour toute question.');
       } else {
-        setContent('Contactez SCM pour toute question.');
+        setContent('Contactez AKATSUKI COFFEE pour toute question.');
       }
     } catch (error) {
-      setContent('Contactez SCM pour toute question.');
+      setContent('Contactez AKATSUKI COFFEE pour toute question.');
     } finally {
       setLoading(false);
     }

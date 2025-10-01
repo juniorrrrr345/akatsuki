@@ -2,7 +2,7 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '../components/Header';
-// Redéploiement forcé - Nouveau chargement SCM
+// Redéploiement forcé - Nouveau chargement AKATSUKI COFFEE
 import CategoryFilter from '../components/CategoryFilter';
 import ProductCard, { Product } from '../components/ProductCard';
 import ProductDetail from '../components/ProductDetail';
@@ -156,7 +156,7 @@ export default function HomePage() {
       }
 
     } catch (error) {
-      console.error('❌ Erreur chargement SCM:', error);
+      console.error('❌ Erreur chargement AKATSUKI COFFEE:', error);
       setProducts([]);
       setCategories(['Toutes les catégories']);
       setFarms(['Toutes les fermes']);
@@ -255,7 +255,7 @@ export default function HomePage() {
               
               {/* Titre principal sans logo (deux lignes) */}
               <div className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-12 tracking-wider drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] animate-pulse leading-tight text-center">
-                <div>SCM</div>
+                <div>AKATSUKI COFFEE</div>
               </div>
               
               {/* Nouvelle barre de chargement style néon */}
@@ -277,7 +277,7 @@ export default function HomePage() {
               
               {/* Footer */}
               <div className="text-white text-sm font-medium drop-shadow-md">
-                <p>SCM</p>
+                <p>AKATSUKI COFFEE</p>
               </div>
             </div>
           </div>

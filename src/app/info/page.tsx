@@ -21,12 +21,12 @@ export default function InfoPageClient() {
       
       if (response.ok) {
         const pageData = await response.json();
-        setContent(pageData.content || 'Bienvenue chez SCM !');
+        setContent(pageData.content || 'Bienvenue chez AKATSUKI COFFEE !');
       } else {
-        setContent('Bienvenue chez SCM !');
+        setContent('Bienvenue chez AKATSUKI COFFEE !');
       }
     } catch (error) {
-      setContent('Bienvenue chez SCM !');
+      setContent('Bienvenue chez AKATSUKI COFFEE !');
     } finally {
       setLoading(false);
     }

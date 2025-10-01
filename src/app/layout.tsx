@@ -9,12 +9,12 @@ import { Toaster } from 'react-hot-toast'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'SCM - Boutique en ligne',
-  description: 'SCM - Votre boutique en ligne. Produits de qualité et livraison rapide.',
+  title: 'AKATSUKI COFFEE - Boutique en ligne',
+  description: 'AKATSUKI COFFEE - Votre boutique en ligne. Produits de qualité et livraison rapide.',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'SCM'
+    title: 'AKATSUKI COFFEE'
   },
   formatDetection: {
     telephone: false

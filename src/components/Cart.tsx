@@ -116,7 +116,7 @@ export default function Cart() {
     const serviceName = targetService === 'livraison' ? 'Livraison à domicile' : targetService === 'envoi' ? 'Envoi postal' : 'Point de rencontre';
     
     // Format optimisé pour WhatsApp
-    let message = `${serviceIcon} *COMMANDE SCM - ${serviceName.toUpperCase()}*\n\n`;
+    let message = `${serviceIcon} *COMMANDE AKATSUKI COFFEE - ${serviceName.toUpperCase()}*\n\n`;
     
     serviceItems.forEach((item, index) => {
       const itemTotal = item.price * item.quantity;
@@ -139,7 +139,7 @@ export default function Cart() {
     
     message += `💰 *TOTAL ${serviceName.toUpperCase()}: ${serviceTotal.toFixed(2)}€*\n\n`;
     message += `📍 Service: ${serviceIcon} ${serviceName}\n\n`;
-    message += `_Commande depuis le site SCM_\n`;
+    message += `_Commande depuis le site AKATSUKI COFFEE_\n`;
     message += `Merci de confirmer ma commande !`;
     
     // Choisir le bon numéro WhatsApp selon le service
@@ -205,7 +205,7 @@ export default function Cart() {
     const totalPrice = getTotalPrice();
     
     // Construire un message complet pour toute la commande
-    let completeMessage = `🛒 *COMMANDE COMPLÈTE SCM*\n\n`;
+    let completeMessage = `🛒 *COMMANDE COMPLÈTE AKATSUKI COFFEE*\n\n`;
     
     services.forEach((service) => {
       const serviceItems = serviceGroups[service];
@@ -228,7 +228,7 @@ export default function Cart() {
     });
     
     completeMessage += `💰 *TOTAL GÉNÉRAL: ${totalPrice.toFixed(2)}€*\n\n`;
-    completeMessage += `_Commande depuis le site SCM_\n`;
+    completeMessage += `_Commande depuis le site AKATSUKI COFFEE_\n`;
     completeMessage += `Merci de confirmer ma commande !`;
     
     // Vérifier qu'un numéro WhatsApp est configuré
