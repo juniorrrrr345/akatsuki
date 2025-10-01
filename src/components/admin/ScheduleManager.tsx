@@ -2,9 +2,7 @@
 import { useState, useEffect } from 'react';
 
 interface ServiceSchedules {
-  livraison_schedules: string[];
   meetup_schedules: string[];
-  envoi_schedules: string[];
 }
 
 export default function ScheduleManager() {
