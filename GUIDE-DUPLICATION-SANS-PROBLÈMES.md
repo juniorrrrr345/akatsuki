@@ -279,7 +279,7 @@ UUID=$(cat d1_response.json | jq -r '.result.uuid')
 echo "📝 UUID D1: $UUID"
 
 # 5. Remplacer UUID partout
-find . -type f \( -name "*.ts" -o -name "*.tsx" \) -exec sed -i "s/78d6725a-cd0f-46f9-9fa4-25ca4faa3efb/$UUID/g" {} \;
+find . -type f \( -name "*.ts" -o -name "*.tsx" \) -exec sed -i "s/4451101b-0e14-4aab-8e25-e702b41a40c4/$UUID/g" {} \;
 
 # 6. CORRECTION OBLIGATOIRE : Nettoyer APIs
 echo "🔧 Correction APIs pour éviter erreurs..."
@@ -403,7 +403,7 @@ curl -X POST "https://api.cloudflare.com/client/v4/accounts/7979421604bd07b3bd34
   -d '{"name": "NOUVEAU-NOM"}' | jq -r '.result.uuid'
 
 # 3. Remplacer UUID
-find . -type f \( -name "*.ts" -o -name "*.tsx" \) -exec sed -i "s/78d6725a-cd0f-46f9-9fa4-25ca4faa3efb/NOUVEAU-UUID/g" {} \;
+find . -type f \( -name "*.ts" -o -name "*.tsx" \) -exec sed -i "s/4451101b-0e14-4aab-8e25-e702b41a40c4/NOUVEAU-UUID/g" {} \;
 
 # 4. Modifier base MongoDB source
 sed -i 's/const MONGODB_DB_NAME = "test"/const MONGODB_DB_NAME = "VOTRE-BASE"/g' migrate-test-db.js

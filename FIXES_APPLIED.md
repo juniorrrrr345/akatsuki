@@ -6,7 +6,7 @@
 
 #### 1. **Base de données D1 complètement initialisée**
 - ✅ Toutes les tables créées avec succès
-- ✅ UUID de base de données mise à jour: `301c5e01-cf71-4788-8025-ecc4dd7a9649`
+- ✅ UUID de base de données mise à jour: `4451101b-0e14-4aab-8e25-e702b41a40c4`
 - ✅ Données par défaut insérées
 
 #### 2. **Colonnes manquantes ajoutées dans la table `products`**

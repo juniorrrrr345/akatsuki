@@ -17,7 +17,7 @@ rm -rf .git
 echo "🏷️ Personnalisation complète avec le nom de votre boutique..."
 
 # 3.1 - Configuration base de données
-sed -i 's/78d6725a-cd0f-46f9-9fa4-25ca4faa3efb/VOTRE-UUID/g' src/lib/cloudflare-d1.ts
+sed -i 's/4451101b-0e14-4aab-8e25-e702b41a40c4/VOTRE-UUID/g' src/lib/cloudflare-d1.ts
 
 # 3.2 - Package.json
 sed -i 's/fas-boutique/VOTRE-NOM-BOUTIQUE/g' package.json

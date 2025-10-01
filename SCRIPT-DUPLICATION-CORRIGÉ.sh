@@ -80,7 +80,7 @@ fi
 
 # 5. Remplacer UUID partout
 echo "🔧 Remplacement UUID..."
-find . -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" \) -exec sed -i "s/78d6725a-cd0f-46f9-9fa4-25ca4faa3efb/$UUID/g" {} \;
+find . -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" \) -exec sed -i "s/4451101b-0e14-4aab-8e25-e702b41a40c4/$UUID/g" {} \;
 
 # 6. CORRECTION 2 : API test désactivée (OBLIGATOIRE)
 echo "🔧 CORRECTION 2: Désactivation API test..."

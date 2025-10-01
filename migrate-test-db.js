@@ -13,7 +13,7 @@ const MONGODB_DB_NAME = 'test'; // ✅ Base correcte avec les données
 // Configuration Cloudflare D1 destination
 const CLOUDFLARE_CONFIG = {
   accountId: '7979421604bd07b3bd34d3ed96222512',
-  databaseId: '78d6725a-cd0f-46f9-9fa4-25ca4faa3efb',
+  databaseId: '4451101b-0e14-4aab-8e25-e702b41a40c4',
   apiToken: 'ijkVhaXCw6LSddIMIMxwPL5CDAWznxip5x9I1bNW'
 };
 

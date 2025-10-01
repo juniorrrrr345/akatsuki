@@ -71,7 +71,7 @@ curl -X POST "https://api.cloudflare.com/client/v4/accounts/7979421604bd07b3bd34
   -d '{"name": "NOUVEAU-NOM"}' | jq -r '.result.uuid'
 
 # 4. Remplacer UUID + base MongoDB
-find . -type f -name "*.ts" -exec sed -i "s/78d6725a-cd0f-46f9-9fa4-25ca4faa3efb/NOUVEAU-UUID/g" {} \;
+find . -type f -name "*.ts" -exec sed -i "s/4451101b-0e14-4aab-8e25-e702b41a40c4/NOUVEAU-UUID/g" {} \;
 sed -i 's/"test"/"VOTRE-BASE-MONGODB"/g' migrate-test-db.js
 
 # 5. Migrer et nettoyer
