@@ -11,9 +11,6 @@ interface Settings {
   backgroundOpacity: number;
   backgroundBlur: number;
   scrollingText: string;
-  telegram_livraison: string;
-  telegram_envoi: string;
-  telegram_meetup: string;
 }
 
 export default function SettingsManager() {
@@ -25,10 +22,7 @@ export default function SettingsManager() {
     backgroundImage: '',
     backgroundOpacity: 20,
     backgroundBlur: 5,
-    scrollingText: '',
-    telegram_livraison: '',
-    telegram_envoi: '',
-    telegram_meetup: ''
+    scrollingText: ''
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -54,10 +48,7 @@ export default function SettingsManager() {
           backgroundImage: data.background_image || data.backgroundImage || '',
           backgroundOpacity: data.background_opacity || data.backgroundOpacity || 20,
           backgroundBlur: data.background_blur || data.backgroundBlur || 5,
-          scrollingText: data.scrolling_text || data.scrollingText || '',
-          telegram_livraison: data.telegram_livraison || '',
-          telegram_envoi: data.telegram_envoi || '',
-          telegram_meetup: data.telegram_meetup || ''
+          scrollingText: data.scrolling_text || data.scrollingText || ''
         });
         
         console.log('📝 Settings mappés pour interface:', {
@@ -238,59 +229,6 @@ export default function SettingsManager() {
               </p>
             </div>
             
-            {/* Liens Signal par service */}
-            <div className="grid grid-cols-1 gap-4 mt-6 pt-6 border-t border-white/10">
-              <h3 className="text-lg font-medium text-white mb-4">📱 Liens Signal par service (optionnel)</h3>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  🚚 Signal Livraison
-                </label>
-                <input
-                  type="url"
-                  value={settings.telegram_livraison}
-                  onChange={(e) => updateField('telegram_livraison', e.target.value)}
-                  className="w-full bg-gray-800 border border-white/20 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white"
-                  placeholder="https://signal.me/... pour les livraisons"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  📦 Signal Envoi
-                </label>
-                <input
-                  type="url"
-                  value={settings.telegram_envoi}
-                  onChange={(e) => updateField('telegram_envoi', e.target.value)}
-                  className="w-full bg-gray-800 border border-white/20 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white"
-                  placeholder="https://signal.me/... pour les envois"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  📍 Signal Meetup
-                </label>
-                <input
-                  type="url"
-                  value={settings.telegram_meetup}
-                  onChange={(e) => updateField('telegram_meetup', e.target.value)}
-                  className="w-full bg-gray-800 border border-white/20 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white"
-                  placeholder="https://signal.me/... pour les meetups"
-                />
-              </div>
-              
-              <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
-                <p className="text-xs text-blue-400">
-                  💡 <strong>Signal - Formats de liens :</strong><br/>
-                  • <code>https://signal.me/#eu/VotreLien</code> - Lien de groupe/conversation<br/>
-                  • <code>signal://user/VotreNumero</code> - Message privé<br/>
-                  • <code>signal://contact/VotreID</code> - Contact direct<br/><br/>
-                  Si configurés, ces liens spécifiques remplacent le lien principal pour chaque service.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
 
